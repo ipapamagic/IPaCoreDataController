@@ -1,0 +1,237 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6E1C990A14D2FE7B004BDC1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C990914D2FE7B004BDC1E /* Foundation.framework */; };
+		6E1C991014D2FE7C004BDC1E /* IPaCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C990F14D2FE7C004BDC1E /* IPaCoreDataController.m */; };
+		6E1C991714D2FECE004BDC1E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1C991614D2FECE004BDC1E /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6E1C990614D2FE7B004BDC1E /* libIPaCoreDataController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaCoreDataController.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E1C990914D2FE7B004BDC1E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6E1C990D14D2FE7B004BDC1E /* IPaCoreDataController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaCoreDataController-Prefix.pch"; sourceTree = "<group>"; };
+		6E1C990E14D2FE7C004BDC1E /* IPaCoreDataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPaCoreDataController.h; sourceTree = "<group>"; };
+		6E1C990F14D2FE7C004BDC1E /* IPaCoreDataController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPaCoreDataController.m; sourceTree = "<group>"; };
+		6E1C991614D2FECE004BDC1E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6E1C990314D2FE7B004BDC1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E1C991714D2FECE004BDC1E /* CoreData.framework in Frameworks */,
+				6E1C990A14D2FE7B004BDC1E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6E1C98FB14D2FE7B004BDC1E = {
+			isa = PBXGroup;
+			children = (
+				6E1C990B14D2FE7B004BDC1E /* IPaCoreDataController */,
+				6E1C990814D2FE7B004BDC1E /* Frameworks */,
+				6E1C990714D2FE7B004BDC1E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6E1C990714D2FE7B004BDC1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E1C990614D2FE7B004BDC1E /* libIPaCoreDataController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6E1C990814D2FE7B004BDC1E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E1C991614D2FECE004BDC1E /* CoreData.framework */,
+				6E1C990914D2FE7B004BDC1E /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E1C990B14D2FE7B004BDC1E /* IPaCoreDataController */ = {
+			isa = PBXGroup;
+			children = (
+				6E1C990E14D2FE7C004BDC1E /* IPaCoreDataController.h */,
+				6E1C990F14D2FE7C004BDC1E /* IPaCoreDataController.m */,
+				6E1C990C14D2FE7B004BDC1E /* Supporting Files */,
+			);
+			path = IPaCoreDataController;
+			sourceTree = "<group>";
+		};
+		6E1C990C14D2FE7B004BDC1E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6E1C990D14D2FE7B004BDC1E /* IPaCoreDataController-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6E1C990414D2FE7B004BDC1E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6E1C990514D2FE7B004BDC1E /* IPaCoreDataController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E1C991314D2FE7C004BDC1E /* Build configuration list for PBXNativeTarget "IPaCoreDataController" */;
+			buildPhases = (
+				6E1C990214D2FE7B004BDC1E /* Sources */,
+				6E1C990314D2FE7B004BDC1E /* Frameworks */,
+				6E1C990414D2FE7B004BDC1E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IPaCoreDataController;
+			productName = IPaCoreDataController;
+			productReference = 6E1C990614D2FE7B004BDC1E /* libIPaCoreDataController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6E1C98FD14D2FE7B004BDC1E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 6E1C990014D2FE7B004BDC1E /* Build configuration list for PBXProject "IPaCoreDataController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6E1C98FB14D2FE7B004BDC1E;
+			productRefGroup = 6E1C990714D2FE7B004BDC1E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6E1C990514D2FE7B004BDC1E /* IPaCoreDataController */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6E1C990214D2FE7B004BDC1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E1C991014D2FE7C004BDC1E /* IPaCoreDataController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6E1C991114D2FE7C004BDC1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6E1C991214D2FE7C004BDC1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6E1C991414D2FE7C004BDC1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IPaCoreDataController.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IPaCoreDataController/IPaCoreDataController-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6E1C991514D2FE7C004BDC1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IPaCoreDataController.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IPaCoreDataController/IPaCoreDataController-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6E1C990014D2FE7B004BDC1E /* Build configuration list for PBXProject "IPaCoreDataController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E1C991114D2FE7C004BDC1E /* Debug */,
+				6E1C991214D2FE7C004BDC1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E1C991314D2FE7C004BDC1E /* Build configuration list for PBXNativeTarget "IPaCoreDataController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E1C991414D2FE7C004BDC1E /* Debug */,
+				6E1C991514D2FE7C004BDC1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6E1C98FD14D2FE7B004BDC1E /* Project object */;
+}
