@@ -1,0 +1,4 @@
+IPaCoreDataController
+=====================
+
+Simple CoreData Control
