@@ -27,7 +27,10 @@
 - (void)save;
 - (id) insertNewObjectForEntityForName:(NSString*)entityName;
 - (void) deleteObject:(NSManagedObject *)object;
-
+/** delete all data from entity
+ @param entityName entityName
+ */
+- (void) deleteEntity:(NSString*)entityName;
 - (NSFetchedResultsController*)getFetchedResultsWithEntity:(NSString*)entityName 
 												SortKey:(NSString*)sortKey 
 												Ascending:(bool)ascending 
@@ -38,6 +41,7 @@
                       SortDescriptors:(NSArray*)SortDescriptors
                           FetchLimit:(NSUInteger)FetchLimit;
 
+-(NSArray*)fetchRequest:(NSFetchRequest*)fetchRequest withEntityName:(NSString *)entityName;
 @end
 
 

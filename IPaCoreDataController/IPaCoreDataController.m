@@ -78,7 +78,25 @@
 	return self;
 }
 
-
+- (void) deleteEntity:(NSString*)entityName
+{
+    NSFetchRequest *fetchALLObjects = [[NSFetchRequest alloc] init];
+    [fetchALLObjects setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:_managedObjectContext]];
+    [fetchALLObjects setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    
+    NSError *error = nil;
+    NSArray *allObjects = [_managedObjectContext executeFetchRequest:fetchALLObjects error:&error];
+    // uncomment next line if you're NOT using ARC
+    // [allObjects release];
+    if (error) {
+        NSLog(@"%@",error);
+    }
+    
+    for (NSManagedObject *object in allObjects) {
+        [_managedObjectContext deleteObject:object];
+    }
+    
+}
 
 #pragma mark - core data stack
 
@@ -134,24 +152,31 @@
 	//return [aFetchedResultsController autorelease];
     return aFetchedResultsController;
 }
+-(NSArray*)fetchRequest:(NSFetchRequest*)fetchRequest withEntityName:(NSString *)entityName
+{
+    NSManagedObjectContext *moc = [self managedObjectContext];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName
+                                              inManagedObjectContext:moc];
+    
+    [fetchRequest setEntity:entity];
+    
+    
+    return [moc executeFetchRequest:fetchRequest error:nil];
+}
 -(NSArray*)fetchResultWithEntityName:(NSString*)entityName
                            Predicate:(NSPredicate*)predicate
                       SortDescriptors:(NSArray*)SortDescriptors
                           FetchLimit:(NSUInteger)FetchLimit
 {
 
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName
-                                              inManagedObjectContext:moc];
-    
+   
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     [fetchRequest setSortDescriptors:SortDescriptors];
     [fetchRequest setFetchLimit:FetchLimit];
     
-    return [moc executeFetchRequest:fetchRequest error:nil];
+    return [self fetchRequest:fetchRequest withEntityName:entityName];
     
 }
 
