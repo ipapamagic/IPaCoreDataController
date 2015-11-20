@@ -1,47 +1,19 @@
 //
 //  IPaCoreDataController.h
+//  IPaCoreDataController
 //
-//  Created by IPaPa on 2011/6/8.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by IPa Chen on 2015/8/16.
+//  Copyright (c) 2015年 A Magic Studio. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import <UIKit/UIKit.h>
 
+//! Project version number for IPaCoreDataController.
+FOUNDATION_EXPORT double IPaCoreDataControllerVersionNumber;
 
-//params key for initial,
-//default IPaCoreDataController load all modal objects in bundle
-//you can use this parameter to load single modal if you want
-#define IPaCoreDataPKey_SingleObjectModel @"IPaCoreDataPKey_SingleObjectModel"
-//Database path, default path is "Document"
-#define IPaCoreDataPKey_DBPath @"IPaCoreDataPKey_DBPath"
-@interface IPaCoreDataController : NSObject {
+//! Project version string for IPaCoreDataController.
+FOUNDATION_EXPORT const unsigned char IPaCoreDataControllerVersionString[];
 
-
-}
-@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-- (IPaCoreDataController*) initDBWithName:(NSString*)dbName withParam:(NSDictionary*)params;
-- (void)save;
-- (id) insertNewObjectForEntityForName:(NSString*)entityName;
-- (void) deleteObject:(NSManagedObject *)object;
-/** delete all data from entity
- @param entityName entityName
- */
-- (void) deleteEntity:(NSString*)entityName;
-- (NSFetchedResultsController*)getFetchedResultsWithEntity:(NSString*)entityName 
-												SortKey:(NSString*)sortKey 
-												Ascending:(bool)ascending 
-												CacheName:(NSString*)cacheName;
-
--(NSArray*)fetchResultWithEntityName:(NSString*)entityName
-                           Predicate:(NSPredicate*)predicate
-                      SortDescriptors:(NSArray*)SortDescriptors
-                          FetchLimit:(NSUInteger)FetchLimit;
-
--(NSArray*)fetchRequest:(NSFetchRequest*)fetchRequest withEntityName:(NSString *)entityName;
-@end
+// In this header, you should import all the public headers of your framework using statements like #import <IPaCoreDataController/PublicHeader.h>
 
 
