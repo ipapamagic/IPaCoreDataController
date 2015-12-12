@@ -182,27 +182,12 @@ public class IPaCoreDataController :NSObject{
                 }
             }
         }
-        guard let destinationModel = targetModel else {
+        guard let destinationModel = targetModel,let destinationMappingModel = targetMappingModel else {
             print("destination model not found!!")
             return false
         }
-        targetMappingModel = NSMappingModel(fromBundles:[bundle], forSourceModel: sourceModel, destinationModel: destinationModel)
-        if targetMappingModel == nil {
-            do {
-                targetMappingModel = try NSMappingModel.inferredMappingModelForSourceModel(sourceModel, destinationModel: destinationModel)
-            }
-            catch let error as NSError {
-                print("\(error)")
-                return false
-            }
-            catch {
-                return false
-            }
-        }
-        guard let destinationMappingModel = targetMappingModel else {
-            print("can not create Mapping Model")
-            return false
-        }
+
+
         // Build a path to write the new store
         let storePath:NSString = sourceURL.path!
         let destinationURL = NSURL(fileURLWithPath:"\(storePath.stringByDeletingPathExtension).\(targetModelName!).\(storePath.pathExtension)")
@@ -340,7 +325,7 @@ public class IPaCoreDataController :NSObject{
     //MARK:Observer
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "migrationProgress" ,let manager = object as? NSMigrationManager {
-            print("progress \(manager.migrationProgress)")
+            print("migration progress \(manager.migrationProgress)")
         }
         else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
