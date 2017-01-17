@@ -1,0 +1,6 @@
+use_frameworks!
+target 'IPaCoreDataController_Tests' do
+  pod 'IPaCoreDataController', :path => '../'
+  
+  
+end

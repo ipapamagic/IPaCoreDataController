@@ -1,0 +1,16 @@
+PODS:
+  - IPaCoreDataController (0.1.0)
+
+DEPENDENCIES:
+  - IPaCoreDataController (from `../`)
+
+EXTERNAL SOURCES:
+  IPaCoreDataController:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IPaCoreDataController: 19ad33bf3cabaab1a19240651d6bfb6c314feec4
+
+PODFILE CHECKSUM: e479cd54f7ac8b760474d11038eb2e4ed183ba54
+
+COCOAPODS: 1.1.1

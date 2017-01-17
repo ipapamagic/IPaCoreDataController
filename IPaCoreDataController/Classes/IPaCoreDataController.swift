@@ -15,17 +15,17 @@ open class IPaCoreDataController :NSObject{
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         do {
             try persistentStoreCoordinator.addPersistentStore(ofType: self.sourceStoreType, configurationName: nil, at: self.dbStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true,
-                NSInferMappingModelAutomaticallyOption: true])
+                                                                                                                                                   NSInferMappingModelAutomaticallyOption: true])
             /*
-            Replace this implementation with code to handle the error appropriately.
-            
-            abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-            
-            Typical reasons for an error here include:
-            * The persistent store is not accessible
-            * The schema for the persistent store is incompatible with current managed object model
-            Check the error message to determine what the actual problem was.
-            */
+             Replace this implementation with code to handle the error appropriately.
+             
+             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+             
+             Typical reasons for an error here include:
+             * The persistent store is not accessible
+             * The schema for the persistent store is incompatible with current managed object model
+             Check the error message to determine what the actual problem was.
+             */
             
             
             
@@ -37,9 +37,10 @@ open class IPaCoreDataController :NSObject{
         }
         return persistentStoreCoordinator
     }()
-    lazy var managedObjectContext:NSManagedObjectContext = {
+    open lazy var managedObjectContext:NSManagedObjectContext = {
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+        managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         return managedObjectContext
     }()
     var sourceStoreType:String {
@@ -47,14 +48,14 @@ open class IPaCoreDataController :NSObject{
             return NSSQLiteStoreType
         }
     }
-    var dbStoreURL:URL
-    init(dbName:String,dbPath:String?,modelName:String?) {
-
+    open var dbStoreURL:URL
+    public init(dbName:String,dbPath:String?,modelName:String?) {
+        
         
         let dbFileName = (dbName as NSString).appendingPathExtension("sqlite")!
         var momdUrl:URL?
-
-
+        
+        
         if let modelName = modelName {
             var modelPath:String? = nil
             modelPath = Bundle.main.path(forResource: modelName, ofType: "momd")
@@ -62,15 +63,15 @@ open class IPaCoreDataController :NSObject{
                 modelPath = Bundle.main.path(forResource: modelName, ofType: "mom")
             }
             momdUrl = URL(fileURLWithPath: modelPath!)
-
+            
         }
         if let momdUrl = momdUrl {
             managedObjectModel = NSManagedObjectModel(contentsOf: momdUrl)!
-
+            
         }
         else {
             managedObjectModel = NSManagedObjectModel.mergedModel(from: nil)!
-
+            
         }
         var storePath:String
         if let dbPath = dbPath {
@@ -80,13 +81,13 @@ open class IPaCoreDataController :NSObject{
             storePath = (NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true).first)!
         }
         storePath = (storePath as NSString).appendingPathComponent(dbFileName)
-   
+        
         
         //bug handling
         var backupFilePath = (storePath as NSString).deletingLastPathComponent
         backupFilePath = (backupFilePath as NSString).appendingPathComponent("backup.sqlite")
         let fileManager = FileManager.default
-      
+        
         if fileManager.fileExists(atPath: backupFilePath) {
             do {
                 try fileManager.removeItem(atPath: backupFilePath)
@@ -97,7 +98,7 @@ open class IPaCoreDataController :NSObject{
                 backupFilePath = (backupFilePath as NSString).deletingLastPathComponent
                 backupFilePath = (backupFilePath as NSString).appendingPathComponent("backup.sqlite-wal")
                 try fileManager.removeItem(atPath: backupFilePath)
-                                
+                
             }
             catch let error as NSError{
                 print("\(error)")
@@ -113,23 +114,23 @@ open class IPaCoreDataController :NSObject{
         
         dbStoreURL = URL(fileURLWithPath: storePath)
         
-
+        
         /*
-        Set up the store.
-        For the sake of illustration, provide a pre-populated default store.
-        */
-       
+         Set up the store.
+         For the sake of illustration, provide a pre-populated default store.
+         */
+        
     }
-    convenience init(dbName:String,modelName:String)
+    public convenience init(dbName:String,modelName:String)
     {
         self.init(dbName:dbName,dbPath:nil,modelName:modelName)
     }
-    convenience init(modelName:String)
+    public convenience init(modelName:String)
     {
         self.init(dbName:modelName,modelName:modelName)
     }
     //MARK: Migration
-
+    
     open func makeMigration() -> Bool {
         let sourceURL = dbStoreURL
         let bundle = Bundle.main
@@ -165,8 +166,8 @@ open class IPaCoreDataController :NSObject{
             let array = bundle.paths(forResourcesOfType: "mom", inDirectory: resourceSubpath)
             for momPath in array {
                 
-
-
+                
+                
                 if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
                     
                     targetMappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model)
@@ -200,8 +201,8 @@ open class IPaCoreDataController :NSObject{
             print("destination model not found!!")
             return false
         }
-
-
+        
+        
         // Build a path to write the new store
         let storePath:NSString = sourceURL.path as NSString
         let destinationURL = URL(fileURLWithPath:"\(storePath.deletingPathExtension).\(targetModelName!).\(storePath.pathExtension)")
@@ -221,7 +222,7 @@ open class IPaCoreDataController :NSObject{
             manager.removeObserver(self, forKeyPath: "migrationProgress")
             return false
         }
-
+        
         // Migration was successful, move the files around to preserve the source in case things go bad
         let guid = ProcessInfo.processInfo.globallyUniqueString
         let backupPath = (NSTemporaryDirectory() as NSString).appendingPathComponent(guid)
@@ -238,7 +239,7 @@ open class IPaCoreDataController :NSObject{
         catch {
             return false
         }
-
+        
         return makeMigration()
         
     }
@@ -251,19 +252,19 @@ open class IPaCoreDataController :NSObject{
         }
         //check migration
         do {
-
+            
             let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: self.sourceStoreType, at: self.dbStoreURL, options: nil)
-
-                // Migration is needed if destinationModel is NOT compatible
+            
+            // Migration is needed if destinationModel is NOT compatible
             if !managedObjectModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetadata) {
                 //migration needed
-
+                
                 
                 
                 
             }
-
-
+            
+            
         }
         catch let error as NSError {
             print("\(error)");
@@ -280,7 +281,7 @@ open class IPaCoreDataController :NSObject{
         let fetchAllObjects = NSFetchRequest<NSManagedObject>()
         fetchAllObjects.entity = NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)
         fetchAllObjects.includesPropertyValues = false //only fetch the managedObjectID
-
+        
         do {
             let allObjects = try managedObjectContext.fetch(fetchAllObjects)
             for object in allObjects {
@@ -289,12 +290,12 @@ open class IPaCoreDataController :NSObject{
                 
             }
         } catch let error as NSError {
-
+            
             print("\(error)");
         }
-
         
-
+        
+        
     }
     //MARK: core data stack
     open func save() {
@@ -305,20 +306,20 @@ open class IPaCoreDataController :NSObject{
         } catch let error as NSError {
             
             print("Unresolved error \(error), \(error.userInfo)");
-           
+            
             abort();
         }
     }
     
     
     open func insertNewObject(_ entityName:String) -> NSManagedObject {
-        return NSEntityDescription.insertNewObject(forEntityName: entityName, into: managedObjectContext) 
+        return NSEntityDescription.insertNewObject(forEntityName: entityName, into: managedObjectContext)
     }
     open func deleteObject(_ object:NSManagedObject) {
         managedObjectContext.delete(object)
         
     }
-    open func fetch(_ request:NSFetchRequest<NSManagedObject>,usedManagedObjectContext:NSManagedObjectContext? = nil) -> [AnyObject]? {
+    open func fetch(_ request:NSFetchRequest<NSFetchRequestResult>,usedManagedObjectContext:NSManagedObjectContext? = nil) -> [AnyObject]? {
         var fetchResult:[AnyObject]?
         var usedMoc = managedObjectContext
         if let moc = usedManagedObjectContext {
