@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 open class IPaCoreDataController :NSObject{
     
-    var managedObjectModel:NSManagedObjectModel
+    public var managedObjectModel:NSManagedObjectModel
     lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         do {
