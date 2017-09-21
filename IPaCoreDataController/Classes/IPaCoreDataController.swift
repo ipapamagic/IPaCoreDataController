@@ -130,7 +130,24 @@ open class IPaCoreDataController :NSObject{
         self.init(dbName:modelName,modelName:modelName)
     }
     //MARK: Migration
-    
+    func findTargetModel(from array:[String],bundle:Bundle,sourceModel:NSManagedObjectModel) -> (String,NSManagedObjectModel,NSMappingModel)? {
+        for momPath in array {
+            
+            if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
+                
+                if let mappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model) {
+                    let targetModelName = ((momPath as NSString).lastPathComponent as NSString).deletingPathExtension
+                    
+                    
+                    return (targetModelName,model,mappingModel)
+                }
+
+            }
+        }
+        return nil
+        
+        
+    }
     open func makeMigration() -> Bool {
         let sourceURL = dbStoreURL
         let bundle = Bundle.main
@@ -164,38 +181,25 @@ open class IPaCoreDataController :NSObject{
             
             let resourceSubpath = (momdPath as NSString).lastPathComponent
             let array = bundle.paths(forResourcesOfType: "mom", inDirectory: resourceSubpath)
-            for momPath in array {
-                
-                
-                
-                if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
-                    
-                    targetMappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model)
-                    if let _ = targetMappingModel {
-                        targetModelName = ((momPath as NSString).lastPathComponent as NSString).deletingPathExtension
-                        targetModel = model
-                        break
-                    }
-                }
-            }
-            if let _ = targetModel  {
+            if let (modelName,model,mappingModel) = self.findTargetModel(from: array, bundle: bundle, sourceModel: sourceModel)
+            {
+                targetModelName = modelName
+                targetModel = model
+                targetMappingModel = mappingModel
                 break
             }
+            
         }
         if targetModel == nil {
             let otherModels = bundle.paths(forResourcesOfType: "mom", inDirectory: nil)
-            for momPath in otherModels {
-                if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
-                    
-                    
-                    targetMappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: targetModel)
-                    if let _ = targetMappingModel {
-                        targetModelName = ((momPath as NSString).lastPathComponent as NSString).deletingPathExtension
-                        targetModel = model
-                        break
-                    }
-                }
+            
+            if let (modelName,model,mappingModel) = self.findTargetModel(from: otherModels, bundle: bundle, sourceModel: sourceModel)
+            {
+                targetModelName = modelName
+                targetModel = model
+                targetMappingModel = mappingModel
             }
+            
         }
         guard let destinationModel = targetModel,let destinationMappingModel = targetMappingModel else {
             print("destination model not found!!")
@@ -245,38 +249,38 @@ open class IPaCoreDataController :NSObject{
     }
     //MARK: Public
     
-    open func checkMigration() -> Bool {
-        let path = self.dbStoreURL.path
-        if !FileManager.default.fileExists(atPath: path) {
-            return false
-        }
-        //check migration
-        do {
-            
-            let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: self.sourceStoreType, at: self.dbStoreURL, options: nil)
-            
-            // Migration is needed if destinationModel is NOT compatible
-            if !managedObjectModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetadata) {
-                //migration needed
-                
-                
-                
-                
-            }
-            
-            
-        }
-        catch let error as NSError {
-            print("\(error)");
-            return false
-        }
-        catch {
-            
-        }
-        return true
-        
-        
-    }
+//    open func checkMigration() -> Bool {
+//        let path = self.dbStoreURL.path
+//        if !FileManager.default.fileExists(atPath: path) {
+//            return false
+//        }
+//        //check migration
+//        do {
+//            
+//            let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: self.sourceStoreType, at: self.dbStoreURL, options: nil)
+//            
+//            // Migration is needed if destinationModel is NOT compatible
+//            if !managedObjectModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetadata) {
+//                //migration needed
+//                
+//                
+//                
+//                
+//            }
+//            
+//            
+//        }
+//        catch let error as NSError {
+//            print("\(error)");
+//            return false
+//        }
+//        catch {
+//            
+//        }
+//        return true
+//        
+//        
+//    }
     open func deleteEntity(_ entityName:String) {
         let fetchAllObjects = NSFetchRequest<NSManagedObject>()
         fetchAllObjects.entity = NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)
