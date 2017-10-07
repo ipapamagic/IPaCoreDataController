@@ -249,38 +249,38 @@ open class IPaCoreDataController :NSObject{
     }
     //MARK: Public
     
-//    open func checkMigration() -> Bool {
-//        let path = self.dbStoreURL.path
-//        if !FileManager.default.fileExists(atPath: path) {
-//            return false
-//        }
-//        //check migration
-//        do {
-//            
-//            let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: self.sourceStoreType, at: self.dbStoreURL, options: nil)
-//            
-//            // Migration is needed if destinationModel is NOT compatible
-//            if !managedObjectModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetadata) {
-//                //migration needed
-//                
-//                
-//                
-//                
-//            }
-//            
-//            
-//        }
-//        catch let error as NSError {
-//            print("\(error)");
-//            return false
-//        }
-//        catch {
-//            
-//        }
-//        return true
-//        
-//        
-//    }
+    open func checkMigration() -> Bool {
+        let path = self.dbStoreURL.path
+        if !FileManager.default.fileExists(atPath: path) {
+            return false
+        }
+        //check migration
+        do {
+            
+            let sourceMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: self.sourceStoreType, at: self.dbStoreURL, options: nil)
+            
+            // Migration is needed if destinationModel is NOT compatible
+            if !managedObjectModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetadata) {
+                //migration needed
+                
+                
+                
+                
+            }
+            
+            
+        }
+        catch let error as NSError {
+            print("\(error)");
+            return false
+        }
+        catch {
+            
+        }
+        return true
+        
+        
+    }
     open func deleteEntity(_ entityName:String) {
         let fetchAllObjects = NSFetchRequest<NSManagedObject>()
         fetchAllObjects.entity = NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)
