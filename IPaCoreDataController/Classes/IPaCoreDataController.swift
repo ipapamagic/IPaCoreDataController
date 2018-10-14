@@ -8,10 +8,11 @@
 
 import Foundation
 import CoreData
+import IPaLog
 open class IPaCoreDataController :NSObject{
     
     public var managedObjectModel:NSManagedObjectModel
-    lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
+    public lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         do {
             try persistentStoreCoordinator.addPersistentStore(ofType: self.sourceStoreType, configurationName: nil, at: self.dbStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true,
@@ -248,7 +249,25 @@ open class IPaCoreDataController :NSObject{
         
     }
     //MARK: Public
-    
+    open func count(with fetchRequest:NSFetchRequest<NSFetchRequestResult>,maximumCount:Int? = nil) -> Int {
+        if let maximumCount = maximumCount {
+            fetchRequest.fetchBatchSize = maximumCount
+        }
+        do {
+            let count = try self.managedObjectContext.count(for: fetchRequest)
+            return count
+        }
+        catch let error as NSError {
+            IPaLog(error.localizedDescription)
+        }
+        return 0
+        
+    }
+    open func count(with entityName:String,maximumCount:Int? = nil) -> Int {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.includesSubentities = false
+        return self.count(with:fetchRequest)
+    }
     open func checkMigration() -> Bool {
         let path = self.dbStoreURL.path
         if !FileManager.default.fileExists(atPath: path) {
@@ -317,7 +336,9 @@ open class IPaCoreDataController :NSObject{
     
     
     open func insertNewObject(_ entityName:String) -> NSManagedObject {
-        return NSEntityDescription.insertNewObject(forEntityName: entityName, into: managedObjectContext)
+        let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)!
+        return NSManagedObject(entity: entityDescription, insertInto: managedObjectContext)
+        
     }
     open func deleteObject(_ object:NSManagedObject) {
         managedObjectContext.delete(object)
@@ -344,7 +365,13 @@ open class IPaCoreDataController :NSObject{
         workerMOC.parent = managedObjectContext
         return workerMOC
     }
-    
+    open func managedObject(for uri:URL, context:NSManagedObjectContext? = nil) -> NSManagedObject? {
+        guard let managedObjectID = self.persistentStoreCoordinator.managedObjectID(forURIRepresentation: uri) else {
+            return nil
+        }
+        let managedObjectContext = context ?? self.managedObjectContext
+        return managedObjectContext.object(with: managedObjectID)
+    }
     //MARK:Observer
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "migrationProgress" ,let manager = object as? NSMigrationManager {
