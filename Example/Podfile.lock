@@ -1,16 +1,23 @@
 PODS:
-  - IPaCoreDataController (0.1.0)
+  - IPaCoreDataController (2.2):
+    - IPaLog (= 2.3)
+  - IPaLog (2.3)
 
 DEPENDENCIES:
   - IPaCoreDataController (from `../`)
+
+SPEC REPOS:
+  https://github.com/ipapamagic/IPaPods.git:
+    - IPaLog
 
 EXTERNAL SOURCES:
   IPaCoreDataController:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaCoreDataController: 19ad33bf3cabaab1a19240651d6bfb6c314feec4
+  IPaCoreDataController: 8e0da01a784d9bf7b042575de74af0ee942f36ed
+  IPaLog: 94e55e52fa0a4c3954ae8bf19bb56291d4d7ccb8
 
-PODFILE CHECKSUM: e479cd54f7ac8b760474d11038eb2e4ed183ba54
+PODFILE CHECKSUM: 67847fec81c636907ffddff24e4c15e2b65423ff
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.7.0.beta.2

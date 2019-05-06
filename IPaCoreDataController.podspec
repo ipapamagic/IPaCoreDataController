@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IPaCoreDataController'
-  s.version          = '2.1'
+  s.version          = '2.2'
   s.summary          = 'Simple CoreData controller.'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/ipapamagic/IPaCoreDataController.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.3'
 
   s.source_files = 'IPaCoreDataController/Classes/**/*'
   
@@ -38,6 +38,6 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'IPaLog'
-  s.swift_version    = '4.2'
+  s.dependency 'IPaLog' , '2.3'
+  s.swift_version    = '5.0'
 end
