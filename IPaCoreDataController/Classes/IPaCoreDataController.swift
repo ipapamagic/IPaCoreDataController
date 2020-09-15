@@ -335,19 +335,34 @@ open class IPaCoreDataController :NSObject{
     }
     
     
-    open func insertNewObject(_ entityName:String) -> NSManagedObject {
-        let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)!
-        return NSManagedObject(entity: entityDescription, insertInto: managedObjectContext)
+    open func createEntity<T:NSManagedObject>() -> T {
+        let entityDescription = NSEntityDescription.entity(forEntityName: String(describing: T.self), in: managedObjectContext)!
+        return NSManagedObject(entity: entityDescription, insertInto: managedObjectContext) as! T
         
     }
     open func deleteObject(_ object:NSManagedObject) {
         managedObjectContext.delete(object)
         
     }
-    open func fetch(_ request:NSFetchRequest<NSFetchRequestResult>,usedManagedObjectContext:NSManagedObjectContext? = nil) -> [AnyObject]? {
-        var fetchResult:[AnyObject]?
-        var usedMoc = managedObjectContext
-        if let moc = usedManagedObjectContext {
+    
+    open func fetchFirst<T:NSFetchRequestResult>(with managedObjectContext:NSManagedObjectContext? = nil,format predicateFormat:String,_ args: CVarArg...) -> T? {
+        let request = NSFetchRequest<T>(entityName: String(describing:T.self))
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: predicateFormat, argumentArray: args)
+        let list:[T]? = self.fetch(request, with: managedObjectContext)
+        return list?.first
+    }
+    open func fetch<T:NSFetchRequestResult>(with managedObjectContext:NSManagedObjectContext? = nil,limit:Int,format predicateFormat:String,_ args: CVarArg...) -> [T]? {
+        let request = NSFetchRequest<T>(entityName: String(describing:T.self))
+        request.fetchLimit = limit
+        request.predicate = NSPredicate(format: predicateFormat, argumentArray: args)
+        let list:[T]? = self.fetch(request, with: managedObjectContext)
+        return list
+    }
+    open func fetch<T:NSFetchRequestResult>(_ request:NSFetchRequest<T>,with managedObjectContext:NSManagedObjectContext? = nil) -> [T]? {
+        var fetchResult:[T]?
+        var usedMoc = self.managedObjectContext
+        if let moc = managedObjectContext {
             usedMoc = moc
         }
         do {
