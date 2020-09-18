@@ -38,6 +38,6 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'IPaLog' , '2.3'
-  s.swift_version    = '5.0'
+  s.dependency 'IPaLog' , '~>3.0'
+  s.swift_version    = '5.2'
 end
