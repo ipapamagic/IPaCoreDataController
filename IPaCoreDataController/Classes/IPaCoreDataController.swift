@@ -329,8 +329,9 @@ open class IPaCoreDataController :NSObject{
         } catch let error as NSError {
             
             print("Unresolved error \(error), \(error.userInfo)");
-            
-            abort();
+            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                self.save()
+            }
         }
     }
     
