@@ -11,6 +11,9 @@ import CoreData
 import IPaLog
 open class IPaCoreDataController :NSObject{
     
+    public static let errorNotificationName = Notification.Name("IPaCoreDataController.errorNotificationName")
+    
+    
     public var managedObjectModel:NSManagedObjectModel
     public lazy var persistentStoreCoordinator:NSPersistentStoreCoordinator = {
         let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
@@ -32,9 +35,7 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
-            print("Unresolved error \(error), \(error.userInfo)")
-            abort();
-            
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
         }
         return persistentStoreCoordinator
     }()
@@ -166,7 +167,7 @@ open class IPaCoreDataController :NSObject{
             }
         }
         catch let error as NSError {
-            print("\(error)")
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
         catch {
@@ -219,7 +220,7 @@ open class IPaCoreDataController :NSObject{
             manager.removeObserver(self, forKeyPath: "migrationProgress")
         }
         catch let error as NSError {
-            print("\(error)")
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             manager.removeObserver(self, forKeyPath: "migrationProgress")
             return false
         }
@@ -238,7 +239,7 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
-            print("\(error)")
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
         catch {
@@ -258,7 +259,7 @@ open class IPaCoreDataController :NSObject{
             return count
         }
         catch let error as NSError {
-            IPaLog(error.localizedDescription)
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
         }
         return 0
         
@@ -290,7 +291,7 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
-            print("\(error)");
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
         catch {
@@ -328,7 +329,7 @@ open class IPaCoreDataController :NSObject{
             }
         } catch let error as NSError {
             
-            print("Unresolved error \(error), \(error.userInfo)");
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             DispatchQueue.main.asyncAfter(deadline: .now()+1) {
                 self.save()
             }
@@ -370,9 +371,7 @@ open class IPaCoreDataController :NSObject{
             try fetchResult = usedMoc.fetch(request)
         } catch let error as NSError {
             
-            print("Unresolved error \(error), \(error.userInfo)");
-            
-            abort();
+            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
         }
         return fetchResult
     }
