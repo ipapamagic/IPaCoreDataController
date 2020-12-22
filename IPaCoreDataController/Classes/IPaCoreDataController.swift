@@ -147,7 +147,7 @@ open class IPaCoreDataController :NSObject{
                             if let entityMigrationPolicyClassName = $0.entityMigrationPolicyClassName,
                                 var namespace = Bundle.main.infoDictionary?["CFBundleExecutable"] as? String {
                                 namespace = namespace.replacingOccurrences(of: " ", with: "_")
-                                $0.entityMigrationPolicyClassName = "\(namespace).\(entityMigrationPolicyClassName)"
+                                $0.entityMigrationPolicyClassName = entityMigrationPolicyClassName.replacingOccurrences(of: "${ModuleName}", with: namespace)
                             }
                         }
                     
