@@ -35,6 +35,7 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
+            //persitentStore fail
             NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
         }
         return persistentStoreCoordinator
@@ -167,6 +168,7 @@ open class IPaCoreDataController :NSObject{
             }
         }
         catch let error as NSError {
+            //migration fail
             NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
@@ -220,6 +222,7 @@ open class IPaCoreDataController :NSObject{
             manager.removeObserver(self, forKeyPath: "migrationProgress")
         }
         catch let error as NSError {
+            //migration fail
             NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             manager.removeObserver(self, forKeyPath: "migrationProgress")
             return false
@@ -239,6 +242,8 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
+            
+            //file backup fail
             NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
@@ -259,7 +264,7 @@ open class IPaCoreDataController :NSObject{
             return count
         }
         catch let error as NSError {
-            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
+            IPaLog(error.localizedDescription)
         }
         return 0
         
@@ -291,6 +296,7 @@ open class IPaCoreDataController :NSObject{
             
         }
         catch let error as NSError {
+            //metadataForPersistentStore fail
             NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
             return false
         }
@@ -328,8 +334,8 @@ open class IPaCoreDataController :NSObject{
                 try managedObjectContext.save()
             }
         } catch let error as NSError {
-            
-            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
+            //save fail
+            IPaLog(error.localizedDescription)
             DispatchQueue.main.asyncAfter(deadline: .now()+1) {
                 self.save()
             }
@@ -371,7 +377,7 @@ open class IPaCoreDataController :NSObject{
             try fetchResult = usedMoc.fetch(request)
         } catch let error as NSError {
             
-            NotificationCenter.default.post(name: IPaCoreDataController.errorNotificationName, object: self, userInfo: ["Error":error])
+            IPaLog(error.localizedDescription)
         }
         return fetchResult
     }
