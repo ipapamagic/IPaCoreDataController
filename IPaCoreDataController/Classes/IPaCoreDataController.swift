@@ -138,8 +138,19 @@ open class IPaCoreDataController :NSObject{
             
             if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
                 
-                if let mappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model) {
+                if var mappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model) {
                     let targetModelName = ((momPath as NSString).lastPathComponent as NSString).deletingPathExtension
+                    
+                   
+                    // Set policy here (I have one policy per migration, so this works)
+                    mappingModel.entityMappings.forEach {
+                            if let entityMigrationPolicyClassName = $0.entityMigrationPolicyClassName,
+                                var namespace = Bundle.main.infoDictionary?["CFBundleExecutable"] as? String {
+                                namespace = namespace.replacingOccurrences(of: " ", with: "_")
+                                $0.entityMigrationPolicyClassName = "\(namespace).\(entityMigrationPolicyClassName)"
+                            }
+                        }
+                    
                     
                     
                     return (targetModelName,model,mappingModel)
