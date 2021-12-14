@@ -138,7 +138,7 @@ open class IPaCoreDataController :NSObject{
             
             if let model =  NSManagedObjectModel(contentsOf: URL(fileURLWithPath: momPath)) {
                 
-                if var mappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model) {
+                if let mappingModel = NSMappingModel(from:[bundle], forSourceModel: sourceModel, destinationModel: model) {
                     let targetModelName = ((momPath as NSString).lastPathComponent as NSString).deletingPathExtension
                     
                    
